@@ -1,0 +1,79 @@
+Index Range: Value
+
+SHAPE
+0 to 26:     Diamonds
+27 to 53:    Ovals
+54 to 80:    Squiggles
+
+FILL (after mod 27)
+0 to 8:     Clear
+9 to 17:    Solid
+18 to 26:   Striped
+
+COLOR (after mod 9)
+0 to 2:     Green
+3 to 5:     Lavender
+6 to 8:     Red
+
+NUMBER (after mod 3)
+0:          1
+1:          2
+2:          3
+
+
+Scratch work for finding a set:
+
+cardShape1 = card1 % 81 / 27;
+cardShape2 = card2 % 81 / 27;
+cardShape3 = card3 % 81 / 27;
+cardFill1 = card1 % 27 / 9;
+cardFill2 = card2 % 27 / 9;
+cardFill3 = card3 % 27 / 9;
+cardColor1 = card1 % 9 / 3;
+cardColor2 = card2 % 9 / 3;
+cardColor3 = card3 % 9 / 3;
+cardNumber1 = card1 % 3 / 1;
+cardNumber2 = card2 % 3 / 1;
+cardNumber3 = card3 % 3 / 1;
+
+
+/*** Pseudo-code for finding a set: ***/
+bool isMatch = true;
+int val = 81;
+
+for(int i = 0; i < 4; ++i){
+    card1value = (card1 % val) / (val / 3);
+    card2value = (card2 % val) / (val / 3);
+    card3value = (card3 % val) / (val / 3);
+    
+    //this if statement was missing on of the checks
+    if((card1value == card2value && card2value != card3value) || (card2value == card3value && card3value != card1value)){
+        // NOT A MATCH
+        isMatch = false;
+        break;
+    }
+    val /= 3;
+}
+
+
+
+/*** Java code for checking Sets ***/
+public boolean checkSet(int card1, int card2, int card3){
+    boolean isSet = true;
+    int modder = 81;
+    for (int i = 0; i < 4; i++){
+        int cardValue1 = (int) ((card1 % modder) / (modder / 3));
+        int cardValue2 = (int) ((card2 % modder) / (modder / 3));
+        int cardValue3 = (int) ((card3 % modder) / (modder / 3));
+        int sum = cardValue1 + cardValue2 + cardValue3;
+        if ((sum % 3) != 0){
+            isSet = false;
+            break;
+        }
+        modder = modder / 3;
+    }
+    return isSet;
+}
+
+
+
